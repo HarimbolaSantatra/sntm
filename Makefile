@@ -1,11 +1,7 @@
-TESTS_INIT=tests/minimal_init.lua
-TESTS_DIR=tests/
+TARGETDIR = ~/.config/nvim/lua
+DIRNAME = sntm
+install:
+	cp -rv lua/* ${TARGETDIR}/
 
-.PHONY: test
-
-test:
-	@nvim \
-		--headless \
-		--noplugin \
-		-u ${TESTS_INIT} \
-		-c "PlenaryBustedDirectory ${TESTS_DIR} { minimal_init = '${TESTS_INIT}' }"
+uninstall:
+	rm -rfv ${TARGETDIR}/${DIRNAME}
