@@ -4,8 +4,9 @@ local M = {}
 ---@field term_num int Maximum number of terminal
 local config = {
   term_num = 1, -- number of terminal
-  -- TODO: implement "tab"
-  win_mode = "split" -- "split" for split or "tab" to open on a new tab
+  -- TODO: implement other method
+  -- "split" (default) or "vsplit" for splits, "tab" to open on a new tab, "normal" to open on current window
+  win_mode = "split" 
 }
 
 M.config = config
@@ -64,7 +65,13 @@ end
 ---Open the terminal in the current window
 ---@param term_buf int The ID of the terminal buffer
 function open_term(term_buf)
-    vim.api.nvim_win_set_buf(0, term_buf)
+    if M.config.win_mode == 'vsplit' then
+	vim.api.nvim_open_win(term_buf, true, { split = 'right', win = 0, }) 
+    elseif M.config.win_mode == 'split' then
+	vim.api.nvim_open_win(term_buf, true, { split = 'below', win = 0, }) 
+    elseif M.config.win_mode == 'normal' then
+	vim.api.nvim_win_set_buf(0, term_buf)
+    end
     vim.cmd("startinsert")
 end
 
@@ -79,7 +86,7 @@ end
 
 -- VIM COMMANDS
 -- vim.api.nvim_create_user_command('Sntm', create_term, {})
-vim.api.nvim_create_user_command('Test', main, {})
+vim.api.nvim_create_user_command('Sntm', main, {})
 
 
 return M
