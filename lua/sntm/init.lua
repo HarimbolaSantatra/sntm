@@ -24,9 +24,6 @@ local win_config = {
     win = 0
 }
 
--- UI creation
-ui = require("sntm.ui")
-
 ---Create a terminal buffer
 ---@return int Buffer ID of the created buffer
 function create_term()
@@ -87,6 +84,6 @@ end
 -- VIM COMMANDS
 -- vim.api.nvim_create_user_command('Sntm', create_term, {})
 vim.api.nvim_create_user_command('Sntm', main, {})
-
+vim.keymap.set('n', '<leader>r', main)
 
 return M
